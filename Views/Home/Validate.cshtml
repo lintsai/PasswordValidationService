@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Validate Password";
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>@ViewData["Title"]</title>
+    <script type="text/javascript">
+        function password_validation() {
+            var password = document.getElementById("t1").value;
+            const Http = new XMLHttpRequest();
+            const url = '/validator?password=' + password;
+            Http.open("GET", url);
+            Http.send();
+
+            Http.onload = (e) => {
+                document.getElementById("t3").value = Http.responseText;
+                JSON.parse(Http.responseText, function (k, v) {
+                    if ('valid' == k) {
+                        if (true == v) {
+                            document.getElementById("t2").value = 'PASS';
+                        } else {
+                            document.getElementById("t2").value = 'FAIL';
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h3 style="color: blueviolet;">C# Password Validation</h3>
+    <p>
+        Enter Password:
+        <label for="t1"></label><input type="text" id="t1" />
+        <br />
+        <br />
+        <input type="button" value="Submit" onclick="password_validation()" />
+        <br />
+        <br />
+        Valid:
+        <label for="t2"></label><input type="text" id="t2" readonly>
+        <br />
+        <br />
+        Output:
+        <br />
+        <label for="t3"></label><textarea id="t3" readonly></textarea>
+        <br><br>
+    </p>
+    <p> <b><u style="color: red;">Note:</u></b></p>
+    <ol>
+        <li>不得為全部連續字元。</li>
+        <li>必須僅由小寫字母和數位混合組成。</li>
+        <li>長度必須介於 5 到 12 個字元之間。</li>
+    </ol>
+</body>
+</html>
